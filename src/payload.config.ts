@@ -90,5 +90,13 @@ export default buildConfig({
       },
     },
     tasks: [],
+    jobsCollectionOverrides: ({ defaultJobsCollection }) => {
+      if (!defaultJobsCollection.admin) {
+        defaultJobsCollection.admin = {}
+      }
+
+      defaultJobsCollection.admin.hidden = false
+      return defaultJobsCollection
+    },
   },
 })

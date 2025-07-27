@@ -4,21 +4,28 @@ import { useCategoryFilter } from '@/providers/CategoryFilter'
 import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
+import { HeaderNav } from '@/Header/Nav'
 import React, { useEffect, useMemo } from 'react'
 
-import type { Post } from '@/payload-types'
+import type { Post, Category } from '@/payload-types'
 
-interface PageClientProps {
+interface HomePageClientProps {
   posts: Post[]
+  categories: Category[]
   totalDocs: number
   totalPages: number
   page: number
 }
 
-const PageClient: React.FC<PageClientProps> = ({ posts, totalDocs, totalPages, page }) => {
-  /* Force the header to be dark mode while we have an image behind it */
+const HomePageClient: React.FC<HomePageClientProps> = ({ 
+  posts, 
+  categories, 
+  totalDocs, 
+  totalPages, 
+  page 
+}) => {
   const { setHeaderTheme } = useHeaderTheme()
-  const { activeCategory } = useCategoryFilter()
+  const { activeCategory, setActiveCategory } = useCategoryFilter()
 
   useEffect(() => {
     setHeaderTheme('light')
@@ -49,16 +56,22 @@ const PageClient: React.FC<PageClientProps> = ({ posts, totalDocs, totalPages, p
   return (
     <div className="pt-24 pb-24">
       <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
-          {activeCategory && (
-            <p className="text-muted-foreground">
-              Showing posts in category: {activeCategory}
-            </p>
-          )}
+        <div className="prose dark:prose-invert max-w-none text-center">
+          <h1>Welcome to IT FEED US</h1>
+          <p className="text-muted-foreground">
+            Stay updated with the latest in technology, programming, and more
+          </p>
         </div>
       </div>
 
+      {/* Tab Navigation */}
+      <div className="border-b border-border mb-8">
+        <HeaderNav 
+          categories={categories} 
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+        />
+      </div>
 
       <div className="container mb-8">
         <PageRange
@@ -83,4 +96,4 @@ const PageClient: React.FC<PageClientProps> = ({ posts, totalDocs, totalPages, p
   )
 }
 
-export default PageClient
+export default HomePageClient
